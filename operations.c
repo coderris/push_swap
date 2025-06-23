@@ -12,7 +12,8 @@
 
 #include <push_swap.h>
 
-void	swap(int *a, int *b)
+static void	swap(int *a, int *b)
+
 {
 	int	aux;
 
@@ -36,8 +37,7 @@ static void	swap_all(t_stack *stack_a, t_stack *stack_b)
 	if (stack_b->next)
 		swap(&stack_b->content, &stack_b->next->content);
 }
-
-static void	push_a(t_stack **stack_a, t_stack **stack_b)
+static void	push(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*aux;
 
@@ -49,4 +49,47 @@ static void	push_a(t_stack **stack_a, t_stack **stack_b)
 		*stack_a = aux;
 	}
 
+}
+static void	rotate(t_stack **stack_a)
+{
+	t_stack	*first;
+	t_stack	*last;
+
+	if (!stack_a || !*stack_a || !(*stack_a)->next)
+		return;
+	first = *stack_a;
+	*stack_a = first->next;
+	first->next = NULL;
+	last = *stack_a;
+	while (last->next)
+		last = last->next;
+	last->next = first;
+}
+static void rotate_all(t_stack **stack_a, t_stack **stack_b)
+{
+	rotate(stack_a);
+	rotate(stack_b);
+}
+static void	reverse(t_stack **stack_a)
+{
+	t_stack	*prev;
+	t_stack	*last;
+
+	if (!stack_a || !*stack_a || !(*stack_a)->next)
+		return;
+	prev = NULL;	
+	last = *stack_a;
+	while (last->next)
+	{
+		prev = last;
+		last = last->next;
+	}
+	prev->next = NULL;
+	last->next = *stack_a;
+	*stack_a = last;
+}
+static void	reverse_all(t_stack **stack_a, t_stack **stack_b)
+{
+	reverse(stack_a);
+	reverse(stack_b);
 }

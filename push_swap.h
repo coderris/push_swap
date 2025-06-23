@@ -34,4 +34,12 @@ static long	ft_atoi_safe(char *str);
 static int	ft_duplicates(int *values, int size);
 static void	ft_error_exit(void);
 static void	ft_free_split(char **str);
+static void	swap(int *a, int *b);
+static void	swap_a(t_stack	*stack);
+static void	swap_all(t_stack *stack_a, t_stack *stack_b);
+static void	push(t_stack **stack_a, t_stack **stack_b);
+static void	rotate(t_stack **stack_a);
+static void rotate_all(t_stack **stack_a, t_stack **stack_b);
+static void	reverse(t_stack **stack_a);
+static void	reverse_all(t_stack **stack_a, t_stack **stack_b);
 #endif
