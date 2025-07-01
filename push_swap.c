@@ -33,11 +33,14 @@ static void	stack_creation(int *values, int	size, t_stack **stack_a)
 		i++;
 	}
 }
+
+
 int	main(int argc, char** argv)
 {
 	char	**splited_values;
 	int		*values;
 	int		values_size;
+	int		size;
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 
@@ -54,6 +57,12 @@ int	main(int argc, char** argv)
 		if (ft_duplicates(values, values_size))
 			ft_error_exit();
 		stack_creation(values, values_size, &stack_a);
+		if(its_ordered(stack_a))
+			exit(1);
+		size = ft_stacksize(stack_a);
+		if (size <= 5)
+			fast_ord(stack_a, size);
+		
 	}
 	return (0);
 }

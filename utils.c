@@ -48,7 +48,7 @@ static long	ft_atoi_safe(char *str)
 		ft_error_exit();
 	return (final);
 }
-int	*ft_to_int(char **values, int size)
+static int	*ft_to_int(char **values, int size)
 {
 	int	i;
 	int	j;
@@ -89,4 +89,45 @@ static void	ft_error_exit(void)
 {
 	write(2, "Error\n", 6);
 	exit(1);
+}
+
+static int	its_ordered(t_stack *stack)
+{
+	while (stack && stack->next)
+	{
+		if (stack->content > stack->next->content)
+			return (1);
+		stack = stack->next;
+	}
+	return (0);
+}
+
+static int	ft_stacksize(t_stack *lst)
+{
+	t_list	*aux;
+	int		i;
+
+	aux = lst;
+	i = 0;
+	while (aux)
+	{
+		aux = aux->next;
+		i++;
+	}
+	return (i);
+}
+
+static void	fast_ord(t_stack **stack_a, int size)
+{
+	if (size == 1)
+		exit(1);
+	else if (size == 2)
+	{
+		if ((*stack_a)->content > (*stack_a)->next->content)
+			swap_stack(stack_a, "a");
+	}
+	else if (size == 3)
+	
+
+
 }

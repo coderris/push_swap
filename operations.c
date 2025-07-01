@@ -21,21 +21,21 @@ static void	swap(int *a, int *b)
 	*a = *b;
 	*b = aux;
 }
-static void	swap_a(t_stack	*stack)
+static void	swap_stack(t_stack	*stack, char c)
 {
 	int	aux;
 
 	if (stack->next)
 		swap(&stack->content, &stack->next->content);
+	ft_printf("s%c",c);
 }
 static void	swap_all(t_stack *stack_a, t_stack *stack_b)
 {
-	int	aux;
-
 	if (stack_a->next)
 		swap(&stack_a->content, &stack_a->next->content);
 	if (stack_b->next)
 		swap(&stack_b->content, &stack_b->next->content);
+	ft_printf("ss");
 }
 static void	push(t_stack **stack_a, t_stack **stack_b)
 {
@@ -69,6 +69,7 @@ static void rotate_all(t_stack **stack_a, t_stack **stack_b)
 {
 	rotate(stack_a);
 	rotate(stack_b);
+	ft_printf("rr");
 }
 static void	reverse(t_stack **stack_a)
 {
@@ -92,4 +93,5 @@ static void	reverse_all(t_stack **stack_a, t_stack **stack_b)
 {
 	reverse(stack_a);
 	reverse(stack_b);
+	ft_printf("rrr");
 }
