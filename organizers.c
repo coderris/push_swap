@@ -35,7 +35,7 @@ void	sort_three(t_stack **stack)
 	else if (a < b && b > c && a > c)
 		rr(stack, "a");
 }
-void sort_five(t_stack **a, t_stack **b)
+void    sort_five(t_stack **a, t_stack **b)
 {
     int size = ft_stacksize(*a);
 
@@ -55,137 +55,88 @@ void sort_five(t_stack **a, t_stack **b)
     while (*b)
         p(a, b, "a");
 }
-
-// Encuentra la posición del máximo índice en stack
-int find_max_position(t_stack *stack)
+int	    find_closest_chunk_pos(t_stack *stack, int min, int max)
 {
-    int max = stack->idx;
-    int max_pos = 0;
-    int i = 0;
-    t_stack *tmp = stack;
+	int i = 0;
+	t_stack *tmp = stack;
 
-    while (tmp)
-    {
-        if (tmp->idx > max)
-        {
-            max = tmp->idx;
-            max_pos = i;
-        }
-        tmp = tmp->next;
-        i++;
-    }
-    return max_pos;
+	while (tmp)
+	{
+		if (tmp->idx >= min && tmp->idx < max)
+			return i;
+		tmp = tmp->next;
+		i++;
+	}
+	return (-1);
 }
-
-// Push chunks desde a a b con optimización de rotaciones en a
-void push_chunks(t_stack **a, t_stack **b, int size, int chunks)
+int	    find_max_position(t_stack *stack)
 {
-    int chunk_size = size / chunks;
-    int min_idx = 0;
-    int max_idx = chunk_size;
-
-    while (min_idx < size)
-    {
-        int len_a = ft_stacksize(*a);
-        int i = 0;
-        while (i < len_a)
-        {
-            t_stack *tmp = *a;
-            if (tmp->idx >= min_idx && tmp->idx < max_idx)
-            {
-                p(b, a, "b");
-                if ((*b)->idx < min_idx + chunk_size / 2)
-                    r(b, "b");
-                i = -1;
-                len_a = ft_stacksize(*a);
-            }
-            else
-            {
-                int pos = 0;
-                t_stack *search = *a;
-                int size_a = ft_stacksize(*a);
-                while (search && !(search->idx >= min_idx && search->idx < max_idx))
-                {
-                    search = search->next;
-                    pos++;
-                }
-                if (pos > size_a / 2)
-                    rr(a, "a");
-                else
-                    r(a, "a");
-            }
-            i++;
-        }
-        min_idx += chunk_size;
-        max_idx += chunk_size;
-        if (max_idx > size)
-            max_idx = size;
-    }
+	int i = 0, max_pos = 0, max = stack->idx;
+	t_stack *tmp = stack;
+	while (tmp)
+	{
+		if (tmp->idx > max)
+		{
+			max = tmp->idx;
+			max_pos = i;
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	return max_pos;
 }
-
-// Decide si se puede rotar simultáneamente ambos stacks para optimizar movimientos
-static int should_rotate_both(t_stack *a, t_stack *b)
+void	push_chunks(t_stack **a, t_stack **b, int size, int chunks)
 {
-    if (!a || !a->next || !b || !b->next)
-        return 0;
-    // Ejemplo: rotar ambos si ambos tienen top dos elementos en orden que beneficiaría
-    // Aquí puedes mejorar la lógica según tu criterio
-    if (a->idx > a->next->idx && b->idx < b->next->idx)
-        return 1;
-    return 0;
+	int chunk_size = size / chunks;
+	int min = 0, max = chunk_size;
+
+	while (min < size)
+	{
+		int pos;
+		while ((pos = find_closest_chunk_pos(*a, min, max)) != -1)
+		{
+			int len = ft_stacksize(*a);
+			if (pos <= len / 2)
+				while (pos-- > 0)
+					r(a, "a");
+			else
+				while (pos++ < len)
+					rr(a, "a");
+
+			p(b, a, "b");
+
+			if (*b && (*b)->idx < min + (chunk_size / 2))
+				r(b, "b");
+		}
+		min += chunk_size;
+		max += chunk_size;
+		if (max > size)
+			max = size;
+	}
 }
-
-static int should_reverse_rotate_both(t_stack *a, t_stack *b)
+void	sort_b_to_a(t_stack **a, t_stack **b)
 {
-    if (!a || !a->next || !b || !b->next)
-        return 0;
-    // Similar al anterior, con reversa
-    if (a->idx < a->next->idx && b->idx > b->next->idx)
-        return 1;
-    return 0;
+	while (*b)
+	{
+		int max_pos = find_max_position(*b);
+		int size = ft_stacksize(*b);
+		int moves = size - max_pos;
+
+		if (max_pos <= size / 2)
+			while (max_pos-- > 0)
+				r(b, "b");
+		else
+			while (moves-- > 0)
+				rr(b, "b");
+
+		p(a, b, "a");
+	}
 }
-
-// Saca de b a a ordenando maximos, rotando a y b simultáneamente cuando conviene
-void sort_b_to_a(t_stack **a, t_stack **b)
+void	hybrid_sort(t_stack **a, t_stack **b, int size)
 {
-    int max_pos;
-    int size;
-
-    while (*b)
-    {
-        max_pos = find_max_position(*b);
-        size = ft_stacksize(*b);
-
-        if (max_pos <= size / 2)
-        {
-            while (max_pos-- > 0)
-            {
-                if (should_rotate_both(*a, *b))
-                    rotate_all(a, b);
-                else
-                    r(b, "b");
-            }
-        }
-        else
-        {
-            max_pos = size - max_pos;
-            while (max_pos-- > 0)
-            {
-                if (should_reverse_rotate_both(*a, *b))
-                    reverse_all(a, b);
-                else
-                    rr(b, "b");
-            }
-        }
-        p(a, b, "a");
-    }
-}
-
-// Ordena con chunking + ordenación de b optimizada
-void hybrid_sort(t_stack **a, t_stack **b, int size)
-{
-    int chunks = 10; // Ajusta entre 6-10 para 100 números (prueba para mejor resultado)
-
-    push_chunks(a, b, size, chunks);
-    sort_b_to_a(a, b);
+	if (!a || !*a || size <= 1)
+		return;
+	int chunks = (size <= 100) ? 4 : 20;
+	push_chunks(a, b, size, chunks);
+	sort_b_to_a(a, b);
 }

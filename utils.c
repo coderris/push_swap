@@ -64,8 +64,7 @@ int		*ft_to_int(char **values, int size)
 	}
 	return (result);
 }
-
-int is_sorted(t_stack *stack)
+int 	is_sorted(t_stack *stack)
 {
 	while (stack && stack->next)
 	{
@@ -75,7 +74,6 @@ int is_sorted(t_stack *stack)
 	}
 	return (1);
 }
-
 void	move_min_to_top(t_stack **a)
 {
 	int		pos;
@@ -97,8 +95,7 @@ void	move_min_to_top(t_stack **a)
 			rr(a, "a");
 	}
 }
-
-int get_min_position(t_stack *stack)
+int 	get_min_position(t_stack *stack)
 {
 	int pos = 0;
 	int min_pos = 0;

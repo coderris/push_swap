@@ -26,7 +26,6 @@ void	ft_free_split(char **str)
 	}
 	free(str);
 }
-
 void	free_stack(t_stack **stack)
 {
 	t_stack	*tmp;
@@ -38,7 +37,6 @@ void	free_stack(t_stack **stack)
 		free(tmp);
 	}
 }
-
 void	ft_error_exit_free(char **splited, int *values)
 {
 	if (splited)
@@ -48,7 +46,6 @@ void	ft_error_exit_free(char **splited, int *values)
 	write(2, "Error\n", 6);
 	exit(EXIT_FAILURE);
 }
-
 void	ft_error_exit(void)
 {
 	write(2, "Error\n", 6);
