@@ -20,7 +20,7 @@ int	ft_ucase(unsigned int num)
 	int	i;
 
 	i = 0;
-	ft_putnbru_fd(num, 1);
+	ft_putnbr_fd(num, 1);
 	if (num == 0)
 		return (1);
 	while (num != 0)

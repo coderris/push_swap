@@ -11,12 +11,12 @@
 # **************************************************************************** #
 
 CC      := cc
-CFLAGS  := -Wall -Wextra -Werror
+CFLAGS  := -Wall -Wextra -Werror -Ilibft -Iprintf
 AR      := ar rcs
 
 NAME    := libftprintf.a
 
-LIBFT_DIR  := libft
+LIBFT_DIR  := ../libft
 LIBFT      := $(LIBFT_DIR)/libft.a
 
 SRC     := ft_printf.c ft_case.c ft_xcase.c ft_idcase.c ft_pcase.c \

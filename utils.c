@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static int	ft_count_strings(char **arr)
+int		ft_count_strings(char **arr)
 {
 	int	i = 0;
 	if (!arr)
@@ -21,7 +21,7 @@ static int	ft_count_strings(char **arr)
 		i++;
 	return (i);
 }
-static long	ft_atoi_safe(char *str)
+long	ft_atoi_safe(char *str)
 {
 	long	sign;
 	long	result;
@@ -48,14 +48,12 @@ static long	ft_atoi_safe(char *str)
 		ft_error_exit();
 	return (final);
 }
-static int	*ft_to_int(char **values, int size)
+int		*ft_to_int(char **values, int size)
 {
 	int	i;
-	int	j;
 	int	*result;
 
 	i = 0;
-	j = 0;
 	result = (int *)malloc(sizeof(int) * (size + 1));
 	if (!result)
 		exit(1);
@@ -66,68 +64,60 @@ static int	*ft_to_int(char **values, int size)
 	}
 	return (result);
 }
-static int	ft_duplicates(int *values, int size)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	while (i < size)
-	{
-		j = i + 1;
-		while (j < size)
-		{
-			if (values[i] == values[j])
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-static void	ft_error_exit(void)
-{
-	write(2, "Error\n", 6);
-	exit(1);
-}
-
-static int	its_ordered(t_stack *stack)
+int is_sorted(t_stack *stack)
 {
 	while (stack && stack->next)
 	{
 		if (stack->content > stack->next->content)
-			return (1);
+			return (0);
 		stack = stack->next;
 	}
-	return (0);
+	return (1);
 }
 
-static int	ft_stacksize(t_stack *lst)
+void	move_min_to_top(t_stack **a)
 {
-	t_list	*aux;
-	int		i;
+	int		pos;
+	int		min_pos;
+	int		size;
 
-	aux = lst;
-	i = 0;
-	while (aux)
+	size = ft_stacksize(*a);
+	min_pos = get_min_position(*a);
+	pos = 0;
+
+	if (min_pos <= size / 2)
 	{
-		aux = aux->next;
-		i++;
+		while (pos++ < min_pos)
+			r(a, "a");
 	}
-	return (i);
+	else
+	{
+		while (pos++ < size - min_pos)
+			rr(a, "a");
+	}
 }
 
-static void	fast_ord(t_stack **stack_a, int size)
+int get_min_position(t_stack *stack)
 {
-	if (size == 1)
-		exit(1);
-	else if (size == 2)
+	int pos = 0;
+	int min_pos = 0;
+	int min_index;
+
+	if (!stack)
+		return -1;
+
+	min_index = stack->idx;
+	while (stack)
 	{
-		if ((*stack_a)->content > (*stack_a)->next->content)
-			swap_stack(stack_a, "a");
+		if (stack->idx < min_index)
+		{
+			min_index = stack->idx;
+			min_pos = pos;
+		}
+		stack = stack->next;
+		pos++;
 	}
-	else if (size == 3)
-	
-
-
+	return min_pos;
 }
+

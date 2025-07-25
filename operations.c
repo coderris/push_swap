@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
+#include "push_swap.h"
 
-static void	swap(int *a, int *b)
-
+void	swap(int *a, int *b)
 {
 	int	aux;
 
@@ -21,23 +20,21 @@ static void	swap(int *a, int *b)
 	*a = *b;
 	*b = aux;
 }
-static void	swap_stack(t_stack	*stack, char c)
+void	s(t_stack *stack, char *c)
 {
-	int	aux;
-
 	if (stack->next)
 		swap(&stack->content, &stack->next->content);
-	ft_printf("s%c",c);
+	ft_printf("s%s\n",c);
 }
-static void	swap_all(t_stack *stack_a, t_stack *stack_b)
+void	ss(t_stack *stack_a, t_stack *stack_b)
 {
 	if (stack_a->next)
 		swap(&stack_a->content, &stack_a->next->content);
 	if (stack_b->next)
 		swap(&stack_b->content, &stack_b->next->content);
-	ft_printf("ss");
+	ft_printf("ss\n");
 }
-static void	push(t_stack **stack_a, t_stack **stack_b)
+void	push(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*aux;
 
@@ -48,50 +45,64 @@ static void	push(t_stack **stack_a, t_stack **stack_b)
 		aux->next = *stack_a;
 		*stack_a = aux;
 	}
-
 }
-static void	rotate(t_stack **stack_a)
+void	p(t_stack **stack_1, t_stack **stack_2, char *c)
+{
+	push(stack_1, stack_2);
+	ft_printf("p%s\n", c);
+}
+void	rotate(t_stack **stack)
 {
 	t_stack	*first;
 	t_stack	*last;
 
-	if (!stack_a || !*stack_a || !(*stack_a)->next)
+	if (!stack || !*stack || !(*stack)->next)
 		return;
-	first = *stack_a;
-	*stack_a = first->next;
+	first = *stack;
+	*stack = first->next;
 	first->next = NULL;
-	last = *stack_a;
+	last = *stack;
 	while (last->next)
 		last = last->next;
 	last->next = first;
 }
-static void rotate_all(t_stack **stack_a, t_stack **stack_b)
+void 	r(t_stack **stack, char *c)
+{
+	rotate(stack);
+	ft_printf("r%s\n", c);
+}
+void 	rotate_all(t_stack **stack_a, t_stack **stack_b)
 {
 	rotate(stack_a);
 	rotate(stack_b);
-	ft_printf("rr");
+	ft_printf("rr\n");
 }
-static void	reverse(t_stack **stack_a)
+void	reverse_stack(t_stack **stack)
 {
 	t_stack	*prev;
 	t_stack	*last;
 
-	if (!stack_a || !*stack_a || !(*stack_a)->next)
+	if (!stack || !*stack || !(*stack)->next)
 		return;
 	prev = NULL;	
-	last = *stack_a;
+	last = *stack;
 	while (last->next)
 	{
 		prev = last;
 		last = last->next;
 	}
 	prev->next = NULL;
-	last->next = *stack_a;
-	*stack_a = last;
+	last->next = *stack;
+	*stack = last;
 }
-static void	reverse_all(t_stack **stack_a, t_stack **stack_b)
+void 	rr(t_stack **stack, char *c)
 {
-	reverse(stack_a);
-	reverse(stack_b);
-	ft_printf("rrr");
+	reverse_stack(stack);
+	ft_printf("rr%s\n", c);
+}
+void	reverse_all(t_stack **stack_a, t_stack **stack_b)
+{
+	reverse_stack(stack_a);
+	reverse_stack(stack_b);
+	ft_printf("rrr\n");
 }

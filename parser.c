@@ -12,62 +12,12 @@
 
 #include "push_swap.h"
 
-static char	**ft_fill_stack(int arguments, char **values)
+
+int		ft_valid_input(char **splited_values)
 {
 	int	i;
-	char	**list;
-	char	**result;
 
 	i = 0;
-	result = NULL;
-	while (i < arguments)
-	{
-		list = ft_split(values[i], ' ');
-		if (!list)
-			exit (1);
-		result = ft_strjoin_array(result, list);
-		ft_free_split(list);
-		i++;
-	}
-	return (result);
-}
-
-static char	**ft_strjoin_array(char **old_result, char **list)
-{
-	int		i;
-	int		j;
-	int		len1;
-	int		len2;
-	char	**result;
-
-	i = 0;
-	j = 0;
-	len1 = ft_count_strings(old_result);
-	len2 = ft_count_strings(list);
-	result = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
-	if (!result)
-		exit(1);
-	while (i < len1)
-	{
-		result[i] = ft_strdup(old_result[i]);
-		i++;
-	}
-	while (j < len2)
-	{
-		result[i + j] = ft_strdup(list[j]);
-		j++;
-	}
-	result[i + j] = NULL;
-	ft_free_split(old_result);
-	return (result);
-}
-static int	ft_valid_input(char **splited_values)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	while (splited_values[i])
 	{
 		if (ft_valid_int(splited_values[i]))
@@ -76,8 +26,7 @@ static int	ft_valid_input(char **splited_values)
 	}
 	return (0);
 }
-
-static int	ft_valid_int(char *str)
+int	ft_valid_int(char *str)
 {
 	int	i;
 
@@ -90,6 +39,25 @@ static int	ft_valid_int(char *str)
 			i++;
 		else
 			return (1);
+	}
+	return (0);
+}
+int	ft_duplicates(int *values, int size)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (values[i] == values[j])
+				return (1);
+			j++;
+		}
+		i++;
 	}
 	return (0);
 }

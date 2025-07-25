@@ -1,20 +1,33 @@
-CC      := cc
-CFLAGS  := -Wall -Wextra -Werror
-AR      := ar rcs
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/25 14:01:50 by lanton-m          #+#    #+#              #
+#    Updated: 2025/07/25 14:01:50 by lanton-m         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME    := push_swap.a
+NAME        := push_swap
+CC          := cc
+CFLAGS      := -Wall -Wextra -Werror -Ilibft -Iprintf
 
-LIBFT_DIR  := libft
-LIBFT      := $(LIBFT_DIR)/libft.a
+LIBFT_DIR   := libft
+LIBFT       := $(LIBFT_DIR)/libft.a
 
 PRINTF_DIR  := printf
-PRINTF      := $(PRINTF_DIR)/printf.a
-SRC     := 
-OBJ     := $(SRC:.c=.o)
+PRINTF      := $(PRINTF_DIR)/libftprintf.a
 
+SRC         := push_swap.c operations.c organizers.c cleaners.c parser.c \
+				stack_creation.c utils.c
+OBJ         := $(SRC:.c=.o)
 
 all: $(LIBFT) $(PRINTF) $(NAME)
 
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(PRINTF) -o $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
@@ -22,29 +35,19 @@ $(LIBFT):
 $(PRINTF):
 	@$(MAKE) -C $(PRINTF_DIR)
 
-$(NAME): $(OBJ) $(LIBFT)
-	@rm -f $(NAME)
-	@mkdir -p temp_libft_objs
-	@cd temp_libft_objs && ar x ../$(LIBFT)
-	$(AR) $(NAME) $(OBJ) temp_libft_objs/*.o
-	@rm -rf temp_libft_objs
-
-
-%.o: %.c push_swap.h
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(PRINTF_DIR) clean
 	rm -f $(OBJ)
-
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(PRINTF_DIR) fclean
 	rm -f $(NAME)
 
-
 re: fclean all
-
 
 .PHONY: all clean fclean re

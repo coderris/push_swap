@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
+#include "push_swap.h"
 
-static int	ft_val_size(char **values)
+int	ft_val_size(char **values)
 {
 	int	i;
 
@@ -21,17 +21,70 @@ static int	ft_val_size(char **values)
 		i++;
 	return (i);
 }
-
-static void	stack_creation(int *values, int	size, t_stack **stack_a)
+void	fast_ord(t_stack **stack_a, t_stack **stack_b, int size)
 {
-	int	i;
+	if (size == 1)
+		exit(1);
+	else if (size == 2)
+	{
+		if ((*stack_a)->content > (*stack_a)->next->content)
+			s(*stack_a, "a");
+	}
+	else if (size == 3)
+		sort_three(stack_a);
+	else
+		sort_five(stack_a, stack_b);
+}
+void	assign_indexes(t_stack *stack, int *values, int size)
+{
+	int		*sorted;
+	int		i;
+	int		j;
+	int		k;
+	int		temp;
+	t_stack	*tmp;
 
+	sorted = malloc(sizeof(int) * size);
+	if (!sorted)
+		exit(1);
 	i = 0;
 	while (i < size)
 	{
-		ft_lstadd_back(&stack_a, ft_lstnew(values[i]));
+		sorted[i] = values[i];
 		i++;
 	}
+	j = 0;
+	while (j < size - 1)
+	{
+		k = 0;
+		while (k < size - j - 1)
+		{
+			if (sorted[k] > sorted[k + 1])
+			{
+				temp = sorted[k];
+				sorted[k] = sorted[k + 1];
+				sorted[k + 1] = temp;
+			}
+			k++;
+		}
+		j++;
+	}
+	tmp = stack;
+	while (tmp)
+	{
+		i = 0;
+		while (i < size)
+		{
+			if (tmp->content == sorted[i])
+			{
+				tmp->idx = i;
+				break;
+			}
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	free(sorted);
 }
 
 
@@ -47,22 +100,35 @@ int	main(int argc, char** argv)
 	stack_a = NULL;
 	stack_b = NULL;
 	splited_values = ft_fill_stack(argc - 1, argv + 1);
+	if (!splited_values)
+		ft_error_exit();
 	values_size = ft_val_size(splited_values);
 	if(argc >= 2)
 	{
 		if (ft_valid_input(splited_values) == 1)
-			ft_error_exit();
+			ft_error_exit_free(splited_values, NULL);
 		values = (int *)ft_to_int(splited_values, values_size);
+		if (!values)
+			ft_error_exit_free(splited_values, NULL);
 		ft_free_split(splited_values);
 		if (ft_duplicates(values, values_size))
-			ft_error_exit();
+			ft_error_exit_free(NULL, values);
 		stack_creation(values, values_size, &stack_a);
-		if(its_ordered(stack_a))
-			exit(1);
+		assign_indexes(stack_a, values, values_size);
+		if(is_sorted(stack_a))
+		{
+			free_stack(&stack_a);
+			free_stack(&stack_b);
+			exit(0);
+		}
 		size = ft_stacksize(stack_a);
 		if (size <= 5)
-			fast_ord(stack_a, size);
-		
+			fast_ord(&stack_a, &stack_b, size);
+		else
+			hybrid_sort(&stack_a, &stack_b, size);
 	}
+	free_stack(&stack_a);
+	free_stack(&stack_b);
+	free(values);
 	return (0);
 }
