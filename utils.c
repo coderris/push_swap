@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/06/15 19:08:55 by lanton-m          #+#    #+#             */
 /*   Updated: 2025/06/15 19:08:56 by lanton-m         ###   ########.fr       */
 /*                                                                            */
@@ -12,15 +15,18 @@
 
 #include "push_swap.h"
 
-int		ft_count_strings(char **arr)
+int	ft_count_strings(char **arr)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	if (!arr)
 		return (0);
 	while (arr[i])
 		i++;
 	return (i);
 }
+
 long	ft_atoi_safe(char *str)
 {
 	long	sign;
@@ -48,7 +54,8 @@ long	ft_atoi_safe(char *str)
 		ft_error_exit();
 	return (final);
 }
-int		*ft_to_int(char **values, int size)
+
+int	*ft_to_int(char **values, int size)
 {
 	int	i;
 	int	*result;
@@ -57,23 +64,23 @@ int		*ft_to_int(char **values, int size)
 	result = (int *)malloc(sizeof(int) * (size + 1));
 	if (!result)
 		exit(1);
-	while(values[i])
+	while (values[i])
 	{
 		result[i] = ft_atoi_safe(values[i]);
 		i++;
 	}
 	return (result);
 }
+
 void	move_min_to_top(t_stack **a)
 {
-	int		pos;
-	int		min_pos;
-	int		size;
+	int	pos;
+	int	min_pos;
+	int	size;
 
 	size = ft_stacksize(*a);
 	min_pos = get_min_position(*a);
 	pos = 0;
-
 	if (min_pos <= size / 2)
 	{
 		while (pos++ < min_pos)
@@ -85,15 +92,17 @@ void	move_min_to_top(t_stack **a)
 			rr(a, "a");
 	}
 }
-int 	get_min_position(t_stack *stack)
+
+int	get_min_position(t_stack *stack)
 {
-	int pos = 0;
-	int min_pos = 0;
-	int min_index;
+	int	pos;
+	int	min_pos;
+	int	min_index;
 
+	pos = 0;
+	min_pos = 0;
 	if (!stack)
-		return -1;
-
+		return (-1);
 	min_index = stack->idx;
 	while (stack)
 	{
@@ -105,6 +114,5 @@ int 	get_min_position(t_stack *stack)
 		stack = stack->next;
 		pos++;
 	}
-	return min_pos;
+	return (min_pos);
 }
-

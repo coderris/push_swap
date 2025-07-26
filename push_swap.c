@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/05/18 18:28:51 by lanton-m          #+#    #+#             */
 /*   Updated: 2025/06/21 19:17:11 by lanton-m         ###   ########.fr       */
 /*                                                                            */
@@ -12,7 +15,7 @@
 
 #include "push_swap.h"
 
-int		ft_val_size(char **values)
+int	ft_val_size(char **values)
 {
 	int	i;
 
@@ -22,11 +25,12 @@ int		ft_val_size(char **values)
 	return (i);
 }
 
-static void	push_swap(t_stack **stack_a, t_stack **stack_b, char **splited_values)
+static void	push_swap(t_stack **stack_a, t_stack **stack_b,
+		char **splited_values)
 {
-	int		*values;
-	int		values_size;
-	int		size;
+	int	*values;
+	int	values_size;
+	int	size;
 
 	if (!splited_values)
 		ft_error_exit();
@@ -41,14 +45,14 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b, char **splited_value
 		ft_error_exit_free(NULL, values);
 	stack_creation(values, values_size, stack_a);
 	assign_indexes(*stack_a, values, values_size);
-	if(is_sorted(*stack_a))
-		free_all_stack(&stack_a, &stack_b);
+	if (is_sorted(*stack_a))
+		free_all_stack(stack_a, stack_b);
 	size = ft_stacksize(*stack_a);
 	hybrid_sort(stack_a, stack_b, size);
 	free(values);
 }
 
-int	main(int argc, char** argv)
+int	main(int argc, char **argv)
 {
 	char	**splited_values;
 	t_stack	*stack_a;
@@ -56,7 +60,7 @@ int	main(int argc, char** argv)
 
 	stack_a = NULL;
 	stack_b = NULL;
-	if(argc >= 2)
+	if (argc >= 2)
 	{
 		splited_values = ft_fill_stack(argc - 1, argv + 1);
 		push_swap(&stack_a, &stack_b, splited_values);
