@@ -61,6 +61,7 @@ int		ft_stacksize(t_stack *lst);
 void	move_min_to_top(t_stack **a);
 int 	get_min_position(t_stack *stack);
 void	free_stack(t_stack **stack);
+void	free_all_stack(t_stack **stack_1, t_stack **stack_2);
 void	ft_error_exit_free(char **splited, int *values);
 void	push_chunks(t_stack **a, t_stack **b, int size, int chunks);
 int		find_max_position(t_stack *stack);

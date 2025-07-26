@@ -51,3 +51,9 @@ void	ft_error_exit(void)
 	write(2, "Error\n", 6);
 	exit(1);
 }
+void	free_all_stack(t_stack **stack_1, t_stack **stack_2)
+{
+	free_stack(stack_1);
+	free_stack(stack_2);
+	exit(0);
+}

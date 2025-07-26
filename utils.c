@@ -64,16 +64,6 @@ int		*ft_to_int(char **values, int size)
 	}
 	return (result);
 }
-int 	is_sorted(t_stack *stack)
-{
-	while (stack && stack->next)
-	{
-		if (stack->content > stack->next->content)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
 void	move_min_to_top(t_stack **a)
 {
 	int		pos;

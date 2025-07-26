@@ -20,8 +20,8 @@ LIBFT       := $(LIBFT_DIR)/libft.a
 PRINTF_DIR  := printf
 PRINTF      := $(PRINTF_DIR)/libftprintf.a
 
-SRC         := push_swap.c operations.c organizers.c cleaners.c parser.c \
-				stack_creation.c utils.c
+SRC         := push_swap.c operations_1.c operations_2.c organizers_1.c  organizers_2.c cleaners.c parser.c \
+				stack_creation_1.c stack_creation_2.c utils.c
 OBJ         := $(SRC:.c=.o)
 
 all: $(LIBFT) $(PRINTF) $(NAME)
