@@ -20,11 +20,15 @@ LIBFT       := $(LIBFT_DIR)/libft.a
 PRINTF_DIR  := printf
 PRINTF      := $(PRINTF_DIR)/libftprintf.a
 
-SRC         := push_swap.c operations_1.c operations_2.c organizers_1.c  organizers_2.c cleaners.c parser.c \
-				stack_creation_1.c stack_creation_2.c utils.c
-OBJ         := $(SRC:.c=.o)
+OBJ_DIR     := obj
+SRC         := push_swap.c operations_1.c operations_2.c organizers_1.c organizers_2.c \
+               cleaners.c parser.c stack_creation_1.c stack_creation_2.c utils.c
+OBJ         := $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-all: $(LIBFT) $(PRINTF) $(NAME)
+all: $(OBJ_DIR) $(LIBFT) $(PRINTF) $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(PRINTF) -o $(NAME)
@@ -35,13 +39,13 @@ $(LIBFT):
 $(PRINTF):
 	@$(MAKE) -C $(PRINTF_DIR)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c push_swap.h | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(MAKE) -C $(PRINTF_DIR) clean
-	rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
