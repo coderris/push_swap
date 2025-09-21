@@ -30,7 +30,7 @@ void	sort_three(t_stack **stack)
 	else if (a < b && b > c && a < c)
 	{
 		s(*stack, "a");
-		r(stack, "a");
+		rr(stack, "a");
 	}
 	else if (a < b && b > c && a > c)
 		rr(stack, "a");
@@ -42,12 +42,7 @@ void    sort_five(t_stack **a, t_stack **b)
     while (size > 3)
     {
         move_min_to_top(a);
-        // Si ambos stacks tienen el siguiente par desordenado, hacer ss
-        if ((*a)->next && (*a)->content > (*a)->next->content
-            && *b && (*b)->next && (*b)->content < (*b)->next->content)
-            ss(*a, *b);
-        else
-            p(b, a, "b");
+        p(b, a, "b");
         size--;
     }
     sort_three(a);
@@ -100,8 +95,11 @@ void	push_chunks(t_stack **a, t_stack **b, int size, int chunks)
 				while (pos-- > 0)
 					r(a, "a");
 			else
-				while (pos++ < len)
+			{
+				int reverse_moves = len - pos;
+				while (reverse_moves-- > 0)
 					rr(a, "a");
+			}
 
 			p(b, a, "b");
 

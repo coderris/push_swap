@@ -59,5 +59,4 @@ void	free_all_stack(t_stack **stack_1, t_stack **stack_2)
 {
 	free_stack(stack_1);
 	free_stack(stack_2);
-	exit(0);
 }
