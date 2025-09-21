@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   organizers_1.c                                     :+:      :+:    :+:   */
+/*   organizers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:50:58 by lanton-m          #+#    #+#             */
-/*   Updated: 2025/07/26 21:15:54 by lanton-m         ###   ########.fr       */
+/*   Updated: 2025/07/24 11:50:58 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	sort_three(t_stack **stack)
 {
-	int	a;
-	int	b;
-	int	c;
+	int	a = (*stack)->content;
+	int	b = (*stack)->next->content;
+	int	c = (*stack)->next->next->content;
 
-	a = (*stack)->content;
-	b = (*stack)->next->content;
-	c = (*stack)->next->next->content;
 	if (a > b && b < c && a < c)
 		s(*stack, "a");
 	else if (a > b && b > c)
@@ -38,55 +35,44 @@ void	sort_three(t_stack **stack)
 	else if (a < b && b > c && a > c)
 		rr(stack, "a");
 }
-
-void	sort_five(t_stack **a, t_stack **b)
+void    sort_five(t_stack **a, t_stack **b)
 {
-	int	size;
+    int size = ft_stacksize(*a);
 
-	size = ft_stacksize(*a);
-	while (size > 3)
-	{
-		move_min_to_top(a);
-		if ((*a)->next && (*a)->content > (*a)->next->content && *b
-			&& (*b)->next && (*b)->content < (*b)->next->content)
-			ss(*a, *b);
-		else
-			p(b, a, "b");
-		size--;
-	}
-	sort_three(a);
-	while (*b)
-		p(a, b, "a");
+    while (size > 3)
+    {
+        move_min_to_top(a);
+        // Si ambos stacks tienen el siguiente par desordenado, hacer ss
+        if ((*a)->next && (*a)->content > (*a)->next->content
+            && *b && (*b)->next && (*b)->content < (*b)->next->content)
+            ss(*a, *b);
+        else
+            p(b, a, "b");
+        size--;
+    }
+    sort_three(a);
+
+    while (*b)
+        p(a, b, "a");
 }
-
-int	find_closest_chunk_pos(t_stack *stack, int min, int max)
+int	    find_closest_chunk_pos(t_stack *stack, int min, int max)
 {
-	int		i;
-	t_stack	*tmp;
+	int i = 0;
+	t_stack *tmp = stack;
 
-	i = 0;
-	tmp = stack;
 	while (tmp)
 	{
 		if (tmp->idx >= min && tmp->idx < max)
-			return (i);
+			return i;
 		tmp = tmp->next;
 		i++;
 	}
 	return (-1);
 }
-
-int	find_max_position(t_stack *stack)
+int	    find_max_position(t_stack *stack)
 {
-	int		i;
-	int		max_pos;
-	int		max;
-	t_stack	*tmp;
-
-	i = 0;
-	max_pos = 0;
-	max = stack->idx;
-	tmp = stack;
+	int i = 0, max_pos = 0, max = stack->idx;
+	t_stack *tmp = stack;
 	while (tmp)
 	{
 		if (tmp->idx > max)
@@ -97,36 +83,32 @@ int	find_max_position(t_stack *stack)
 		tmp = tmp->next;
 		i++;
 	}
-	return (max_pos);
+	return max_pos;
 }
-
 void	push_chunks(t_stack **a, t_stack **b, int size, int chunks)
 {
-	int	chunk_size;
-	int	min;
-	int	max;
-	int	pos;
-	int	len;
+	int chunk_size = size / chunks;
+	int min = 0, max = chunk_size;
 
-	chunk_size = size / chunks;
-	min = 0;
-	max = chunk_size;
 	while (min < size)
 	{
-		pos = find_closest_chunk_pos(*a, min, max);
-		while (pos != -1)
+		int pos;
+		while ((pos = find_closest_chunk_pos(*a, min, max)) != -1)
 		{
-			len = ft_stacksize(*a);
-			while (pos-- > 0 && pos < len / 2)
-				r(a, "a");
-			while (pos++ < len && pos >= len / 2)
-				rr(a, "a");
+			int len = ft_stacksize(*a);
+			if (pos <= len / 2)
+				while (pos-- > 0)
+					r(a, "a");
+			else
+				while (pos++ < len)
+					rr(a, "a");
+
 			p(b, a, "b");
-			if ((*b)->idx < min + chunk_size / 2)
+
+			if (*b && (*b)->idx < min + (chunk_size / 2))
 				r(b, "b");
-			pos = find_closest_chunk_pos(*a, min, max);
 		}
-		min = max;
+		min += chunk_size;
 		max += chunk_size;
 		if (max > size)
 			max = size;

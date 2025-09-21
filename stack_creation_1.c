@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_creation_1.c                                 :+:      :+:    :+:   */
+/*   stack_creation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 00:35:37 by lanton-m          #+#    #+#             */
-/*   Updated: 2025/07/26 21:06:57 by lanton-m         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:35:37 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_fill_stack(int arguments, char **values)
 {
-	int		i;
+	int	i;
 	char	**list;
 	char	**result;
 
@@ -24,14 +24,13 @@ char	**ft_fill_stack(int arguments, char **values)
 	{
 		list = ft_split(values[i], ' ');
 		if (!list)
-			exit(1);
+			exit (1);
 		result = ft_strjoin_array(result, list);
 		ft_free_split(list);
 		i++;
 	}
 	return (result);
 }
-
 char	**ft_strjoin_array(char **old_result, char **list)
 {
 	int		i;
@@ -61,7 +60,6 @@ char	**ft_strjoin_array(char **old_result, char **list)
 	ft_free_split(old_result);
 	return (result);
 }
-
 t_stack	*ft_stacknew(int content)
 {
 	t_stack	*new;
@@ -74,7 +72,6 @@ t_stack	*ft_stacknew(int content)
 	new->next = NULL;
 	return (new);
 }
-
 void	ft_stackadd_back(t_stack **lst, t_stack *new)
 {
 	t_stack	*tmp;
@@ -82,15 +79,14 @@ void	ft_stackadd_back(t_stack **lst, t_stack *new)
 	if (!*lst)
 	{
 		*lst = new;
-		return ;
+		return;
 	}
 	tmp = *lst;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 }
-
-void	stack_creation(int *values, int size, t_stack **stack_a)
+void	stack_creation(int *values, int	size, t_stack **stack_a)
 {
 	int	i;
 

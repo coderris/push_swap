@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:28:51 by lanton-m          #+#    #+#             */
 /*   Updated: 2025/06/21 19:17:11 by lanton-m         ###   ########.fr       */
 /*                                                                            */
@@ -25,12 +22,11 @@ int	ft_val_size(char **values)
 	return (i);
 }
 
-static void	push_swap(t_stack **stack_a, t_stack **stack_b,
-		char **splited_values)
+static void	push_swap(t_stack **stack_a, t_stack **stack_b, char **splited_values)
 {
-	int	*values;
-	int	values_size;
-	int	size;
+	int		*values;
+	int		values_size;
+	int		size;
 
 	if (!splited_values)
 		ft_error_exit();
@@ -46,7 +42,11 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b,
 	stack_creation(values, values_size, stack_a);
 	assign_indexes(*stack_a, values, values_size);
 	if (is_sorted(*stack_a))
+	{
+		free(values);
 		free_all_stack(stack_a, stack_b);
+		return;
+	}
 	size = ft_stacksize(*stack_a);
 	hybrid_sort(stack_a, stack_b, size);
 	free(values);

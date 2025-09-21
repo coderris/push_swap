@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 19:24:36 by lanton-m          #+#    #+#             */
-/*   Updated: 2025/07/26 20:54:25 by lanton-m         ###   ########.fr       */
+/*   Created: 2025/09/17 13:33:01 by lanton-m          #+#    #+#             */
+/*   Updated: 2025/09/17 13:33:01 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,50 @@ void	swap(int *a, int *b)
 	*a = *b;
 	*b = aux;
 }
-
 void	s(t_stack *stack, char *c)
 {
-	if (stack->next)
+	if (stack && stack->next)
+	{
 		swap(&stack->content, &stack->next->content);
-	ft_printf("s%s\n", c);
+		ft_printf("s%s\n",c);
+	}
 }
-
 void	ss(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->next)
-		swap(&stack_a->content, &stack_a->next->content);
-	if (stack_b->next)
-		swap(&stack_b->content, &stack_b->next->content);
-	ft_printf("ss\n");
-}
+	int	a_swapped;
+	int	b_swapped;
 
-void	push(t_stack **stack_a, t_stack **stack_b)
+	a_swapped = 0;
+	b_swapped = 0;
+	if (stack_a && stack_a->next)
+	{
+		swap(&stack_a->content, &stack_a->next->content);
+		a_swapped = 1;
+	}
+	if (stack_b && stack_b->next)
+	{
+		swap(&stack_b->content, &stack_b->next->content);
+		b_swapped = 1;
+	}
+	if (a_swapped || b_swapped)
+		ft_printf("ss\n");
+}
+int		push(t_stack **dst, t_stack **src)
 {
 	t_stack	*aux;
 
-	if (stack_b && *stack_b)
+	if (src && *src)
 	{
-		aux = *stack_b;
-		*stack_b = (*stack_b)->next;
-		aux->next = *stack_a;
-		*stack_a = aux;
+		aux = *src;
+		*src = (*src)->next;
+		aux->next = *dst;
+		*dst = aux;
+		return (1);
 	}
+	return (0);
 }
-
 void	p(t_stack **stack_1, t_stack **stack_2, char *c)
 {
-	push(stack_1, stack_2);
-	ft_printf("p%s\n", c);
+	if (push(stack_1, stack_2))
+		ft_printf("p%s\n", c);
 }

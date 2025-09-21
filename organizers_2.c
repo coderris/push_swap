@@ -6,7 +6,7 @@
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:50:01 by lanton-m          #+#    #+#             */
-/*   Updated: 2025/07/26 21:02:52 by lanton-m         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:50:01 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	sort_b_to_a(t_stack **a, t_stack **b)
 {
-	int	max_pos;
-	int	size;
-	int	moves;
-
 	while (*b)
 	{
-		max_pos = find_max_position(*b);
-		size = ft_stacksize(*b);
-		moves = size - max_pos;
+		int max_pos = find_max_position(*b);
+		int size = ft_stacksize(*b);
+		int moves = size - max_pos;
+
 		if (max_pos <= size / 2)
 			while (max_pos-- > 0)
 				r(b, "b");
@@ -35,27 +32,24 @@ void	sort_b_to_a(t_stack **a, t_stack **b)
 
 void	hybrid_sort(t_stack **a, t_stack **b, int size)
 {
-	int	chunks;
-
 	if (size <= 5)
 		fast_ord(a, b, size);
 	else
 	{
 		if (!a || !*a || size <= 1)
-			return ;
-		if (size <= 100)
-			chunks = 4;
-		else
-			chunks = 10;
-		push_chunks(a, b, size, chunks);
-		sort_b_to_a(a, b);
+			return;
+		{
+			int chunks = (size <= 100) ? 4 : 20;
+			push_chunks(a, b, size, chunks);
+			sort_b_to_a(a, b);
+		}
 	}
 }
 
 void	fast_ord(t_stack **stack_a, t_stack **stack_b, int size)
 {
 	if (size == 1)
-		exit(1);
+		return;
 	else if (size == 2)
 	{
 		if ((*stack_a)->content > (*stack_a)->next->content)
