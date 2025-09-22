@@ -22,15 +22,10 @@ int	ft_val_size(char **values)
 	return (i);
 }
 
-static void	push_swap(t_stack **stack_a, t_stack **stack_b, char **splited_values)
+static int	*validate_and_convert(char **splited_values, int values_size)
 {
-	int		*values;
-	int		values_size;
-	int		size;
+	int	*values;
 
-	if (!splited_values)
-		ft_error_exit();
-	values_size = ft_val_size(splited_values);
 	if (ft_valid_input(splited_values) == 1)
 		ft_error_exit_free(splited_values, NULL);
 	values = (int *)ft_to_int(splited_values, values_size);
@@ -39,13 +34,27 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b, char **splited_value
 	ft_free_split(splited_values);
 	if (ft_duplicates(values, values_size))
 		ft_error_exit_free(NULL, values);
+	return (values);
+}
+
+static void	push_swap(t_stack **stack_a, t_stack **stack_b,
+				char **splited_values)
+{
+	int	*values;
+	int	values_size;
+	int	size;
+
+	if (!splited_values)
+		ft_error_exit();
+	values_size = ft_val_size(splited_values);
+	values = validate_and_convert(splited_values, values_size);
 	stack_creation(values, values_size, stack_a);
 	assign_indexes(*stack_a, values, values_size);
 	if (is_sorted(*stack_a))
 	{
 		free(values);
 		free_all_stack(stack_a, stack_b);
-		return;
+		return ;
 	}
 	size = ft_stacksize(*stack_a);
 	hybrid_sort(stack_a, stack_b, size);

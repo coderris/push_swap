@@ -21,8 +21,8 @@ PRINTF_DIR  := printf
 PRINTF      := $(PRINTF_DIR)/libftprintf.a
 
 OBJ_DIR     := obj
-SRC         := push_swap.c operations_1.c operations_2.c organizers_1.c organizers_2.c \
-               cleaners.c parser.c stack_creation_1.c stack_creation_2.c utils.c
+SRC         := push_swap.c operations_1.c operations_2.c organizers_1.c organizers_2.c organizers_3.c \
+               cleaners.c parser.c stack_creation_1.c stack_creation_2.c stack_creation_3.c utils.c
 OBJ         := $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(OBJ_DIR) $(LIBFT) $(PRINTF) $(NAME)

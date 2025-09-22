@@ -14,7 +14,7 @@
 
 char	**ft_fill_stack(int arguments, char **values)
 {
-	int	i;
+	int		i;
 	char	**list;
 	char	**result;
 
@@ -31,35 +31,49 @@ char	**ft_fill_stack(int arguments, char **values)
 	}
 	return (result);
 }
-char	**ft_strjoin_array(char **old_result, char **list)
+
+static void	copy_old_strings(char **result, char **old_result, int len1)
 {
-	int		i;
-	int		j;
-	int		len1;
-	int		len2;
-	char	**result;
+	int	i;
 
 	i = 0;
-	j = 0;
-	len1 = ft_count_strings(old_result);
-	len2 = ft_count_strings(list);
-	result = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
-	if (!result)
-		exit(1);
 	while (i < len1)
 	{
 		result[i] = ft_strdup(old_result[i]);
 		i++;
 	}
+}
+
+static void	copy_new_strings(char **result, char **list, int len1, int len2)
+{
+	int	j;
+
+	j = 0;
 	while (j < len2)
 	{
-		result[i + j] = ft_strdup(list[j]);
+		result[len1 + j] = ft_strdup(list[j]);
 		j++;
 	}
-	result[i + j] = NULL;
+}
+
+char	**ft_strjoin_array(char **old_result, char **list)
+{
+	int		len1;
+	int		len2;
+	char	**result;
+
+	len1 = ft_count_strings(old_result);
+	len2 = ft_count_strings(list);
+	result = (char **)malloc(sizeof(char *) * (len1 + len2 + 1));
+	if (!result)
+		exit(1);
+	copy_old_strings(result, old_result, len1);
+	copy_new_strings(result, list, len1, len2);
+	result[len1 + len2] = NULL;
 	ft_free_split(old_result);
 	return (result);
 }
+
 t_stack	*ft_stacknew(int content)
 {
 	t_stack	*new;
@@ -71,29 +85,4 @@ t_stack	*ft_stacknew(int content)
 	new->idx = -1;
 	new->next = NULL;
 	return (new);
-}
-void	ft_stackadd_back(t_stack **lst, t_stack *new)
-{
-	t_stack	*tmp;
-
-	if (!*lst)
-	{
-		*lst = new;
-		return;
-	}
-	tmp = *lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-void	stack_creation(int *values, int	size, t_stack **stack_a)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		ft_stackadd_back(stack_a, ft_stacknew(values[i]));
-		i++;
-	}
 }

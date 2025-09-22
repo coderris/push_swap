@@ -12,32 +12,34 @@
 
 #include "push_swap.h"
 
-
-int	ft_stacksize(t_stack *lst)
+static void	bubble_sort(int *arr, int size)
 {
-	int		i;
+	int	i;
+	int	j;
+	int	temp;
 
 	i = 0;
-	while (lst)
+	while (i < size - 1)
 	{
-		lst = lst->next;
+		j = 0;
+		while (j < size - i - 1)
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+			j++;
+		}
 		i++;
 	}
-	return (i);
 }
 
-static int	int_cmp(const void *a, const void *b)
+static int	*create_sorted_array(int *values, int size)
 {
-	const int ia = *(const int *)a;
-	const int ib = *(const int *)b;
-	return (ia > ib) - (ia < ib);
-}
-
-void	assign_indexes(t_stack *stack, int *values, int size)
-{
-	int		*sorted;
-	int		i;
-	t_stack	*tmp;
+	int	*sorted;
+	int	i;
 
 	sorted = malloc(sizeof(int) * size);
 	if (!sorted)
@@ -48,17 +50,47 @@ void	assign_indexes(t_stack *stack, int *values, int size)
 		sorted[i] = values[i];
 		i++;
 	}
-	qsort(sorted, size, sizeof(int), int_cmp);
+	bubble_sort(sorted, size);
+	return (sorted);
+}
+
+static int	find_index(int value, int *sorted, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (sorted[i] == value)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static void	assign_single_index(t_stack *tmp, int *sorted, int size)
+{
+	int	index;
+
+	index = find_index(tmp->content, sorted, size);
+	if (index == -1)
+	{
+		free(sorted);
+		exit(EXIT_FAILURE);
+	}
+	tmp->idx = index;
+}
+
+void	assign_indexes(t_stack *stack, int *values, int size)
+{
+	int		*sorted;
+	t_stack	*tmp;
+
+	sorted = create_sorted_array(values, size);
 	tmp = stack;
 	while (tmp)
 	{
-		int *found = bsearch(&tmp->content, sorted, size, sizeof(int), int_cmp);
-		if (!found)
-		{
-			free(sorted);
-			exit(EXIT_FAILURE);
-		}
-		tmp->idx = (int)(found - sorted);
+		assign_single_index(tmp, sorted, size);
 		tmp = tmp->next;
 	}
 	free(sorted);

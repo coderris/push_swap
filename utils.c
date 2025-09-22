@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 
-
 int	ft_count_strings(char **arr)
 {
 	int	i;
@@ -58,11 +57,15 @@ int	*ft_to_int(char **values, int size)
 	int	i;
 	int	*result;
 
+	i = 0;
 	result = (int *)malloc(sizeof(int) * size);
 	if (!result)
 		exit(EXIT_FAILURE);
-	for (i = 0; i < size; i++)
+	while (i < size)
+	{
 		result[i] = (int)ft_atoi_safe(values[i]);
+		i++;
+	}
 	return (result);
 }
 
@@ -89,14 +92,14 @@ void	move_min_to_top(t_stack **a)
 
 int	get_min_position(t_stack *stack)
 {
-	int pos;
-	int min_pos;
-	int min_index;
+	int	pos;
+	int	min_pos;
+	int	min_index;
 
 	pos = 0;
 	min_pos = 0;
 	if (!stack)
-		return -1;
+		return (-1);
 	min_index = stack->idx;
 	while (stack)
 	{
@@ -108,5 +111,5 @@ int	get_min_position(t_stack *stack)
 		stack = stack->next;
 		pos++;
 	}
-	return min_pos;
+	return (min_pos);
 }

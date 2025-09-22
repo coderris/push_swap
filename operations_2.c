@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 
-
 int	rotate(t_stack **stack)
 {
 	t_stack	*first;
@@ -38,8 +37,8 @@ void	r(t_stack **stack, char *c)
 
 int	rotate_all(t_stack **stack_a, t_stack **stack_b)
 {
-	int da;
-	int db;
+	int	da;
+	int	db;
 
 	da = rotate(stack_a);
 	db = rotate(stack_b);
@@ -75,19 +74,4 @@ void	rr(t_stack **stack, char *c)
 {
 	if (reverse_stack(stack))
 		ft_printf("rr%s\n", c);
-}
-
-int	reverse_all(t_stack **stack_a, t_stack **stack_b)
-{
-	int da;
-	int db;
-
-	da = reverse_stack(stack_a);
-	db = reverse_stack(stack_b);
-	if (da || db)
-	{
-		ft_printf("rrr\n");
-		return (1);
-	}
-	return (0);
 }

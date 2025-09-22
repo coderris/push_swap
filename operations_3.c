@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   operations_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 21:18:42 by lanton-m          #+#    #+#             */
-/*   Updated: 2024/10/31 20:23:06 by lanton-m         ###   ########.fr       */
+/*   Created: 2025/09/21 00:00:00 by lanton-m          #+#    #+#             */
+/*   Updated: 2025/09/21 00:00:00 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-t_list	*ft_lstnew(void *content)
+void	rr(t_stack **stack, char *c)
 {
-	t_list	*new_element;
-	int	idx;
+	if (reverse_stack(stack))
+		ft_printf("rr%s\n", c);
+}
 
-	idx = 0;
-	new_element = malloc(sizeof(t_list));
-	if (!new_element)
-		return (NULL);
-	new_element->content = content;
-	
-	new_element->next = NULL;
-	return (new_element);
+int	reverse_all(t_stack **stack_a, t_stack **stack_b)
+{
+	int	da;
+	int	db;
+
+	da = reverse_stack(stack_a);
+	db = reverse_stack(stack_b);
+	if (da || db)
+	{
+		ft_printf("rrr\n");
+		return (1);
+	}
+	return (0);
 }

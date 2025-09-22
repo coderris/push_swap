@@ -14,10 +14,13 @@
 
 void	sort_three(t_stack **stack)
 {
-	int	a = (*stack)->content;
-	int	b = (*stack)->next->content;
-	int	c = (*stack)->next->next->content;
+	int	a;
+	int	b;
+	int	c;
 
+	a = (*stack)->content;
+	b = (*stack)->next->content;
+	c = (*stack)->next->next->content;
 	if (a > b && b < c && a < c)
 		s(*stack, "a");
 	else if (a > b && b > c)
@@ -35,39 +38,34 @@ void	sort_three(t_stack **stack)
 	else if (a < b && b > c && a > c)
 		rr(stack, "a");
 }
-void    sort_five(t_stack **a, t_stack **b)
+
+void	sort_five(t_stack **a, t_stack **b)
 {
-    int size = ft_stacksize(*a);
+	int	size;
 
-    while (size > 3)
-    {
-        move_min_to_top(a);
-        p(b, a, "b");
-        size--;
-    }
-    sort_three(a);
-
-    while (*b)
-        p(a, b, "a");
-}
-int	    find_closest_chunk_pos(t_stack *stack, int min, int max)
-{
-	int i = 0;
-	t_stack *tmp = stack;
-
-	while (tmp)
+	size = ft_stacksize(*a);
+	while (size > 3)
 	{
-		if (tmp->idx >= min && tmp->idx < max)
-			return i;
-		tmp = tmp->next;
-		i++;
+		move_min_to_top(a);
+		p(b, a, "b");
+		size--;
 	}
-	return (-1);
+	sort_three(a);
+	while (*b)
+		p(a, b, "a");
 }
-int	    find_max_position(t_stack *stack)
+
+int	find_max_position(t_stack *stack)
 {
-	int i = 0, max_pos = 0, max = stack->idx;
-	t_stack *tmp = stack;
+	int		i;
+	int		max_pos;
+	int		max;
+	t_stack	*tmp;
+
+	i = 0;
+	max_pos = 0;
+	max = stack->idx;
+	tmp = stack;
 	while (tmp)
 	{
 		if (tmp->idx > max)
@@ -78,37 +76,5 @@ int	    find_max_position(t_stack *stack)
 		tmp = tmp->next;
 		i++;
 	}
-	return max_pos;
-}
-void	push_chunks(t_stack **a, t_stack **b, int size, int chunks)
-{
-	int chunk_size = size / chunks;
-	int min = 0, max = chunk_size;
-
-	while (min < size)
-	{
-		int pos;
-		while ((pos = find_closest_chunk_pos(*a, min, max)) != -1)
-		{
-			int len = ft_stacksize(*a);
-			if (pos <= len / 2)
-				while (pos-- > 0)
-					r(a, "a");
-			else
-			{
-				int reverse_moves = len - pos;
-				while (reverse_moves-- > 0)
-					rr(a, "a");
-			}
-
-			p(b, a, "b");
-
-			if (*b && (*b)->idx < min + (chunk_size / 2))
-				r(b, "b");
-		}
-		min += chunk_size;
-		max += chunk_size;
-		if (max > size)
-			max = size;
-	}
+	return (max_pos);
 }

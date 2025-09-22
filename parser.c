@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int 	is_sorted(t_stack *stack)
+int	is_sorted(t_stack *stack)
 {
 	while (stack && stack->next)
 	{
@@ -22,7 +22,8 @@ int 	is_sorted(t_stack *stack)
 	}
 	return (1);
 }
-int		ft_valid_input(char **splited_values)
+
+int	ft_valid_input(char **splited_values)
 {
 	int	i;
 
@@ -35,7 +36,8 @@ int		ft_valid_input(char **splited_values)
 	}
 	return (0);
 }
-int		ft_valid_int(char *str)
+
+int	ft_valid_int(char *str)
 {
 	int	i;
 
@@ -51,7 +53,8 @@ int		ft_valid_int(char *str)
 	}
 	return (0);
 }
-int		ft_duplicates(int *values, int size)
+
+int	ft_duplicates(int *values, int size)
 {
 	int	i;
 	int	j;
