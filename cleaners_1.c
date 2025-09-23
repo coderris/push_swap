@@ -1,63 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_creation_3.c                                 :+:      :+:    :+:   */
+/*   clearners.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lanton-m <lanton-m@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/25 00:35:37 by lanton-m          #+#    #+#             */
-/*   Updated: 2025/07/25 00:35:37 by lanton-m         ###   ########.fr       */
+/*   Created: 2025/06/15 19:09:03 by lanton-m          #+#    #+#             */
+/*   Updated: 2025/06/15 19:11:27 by lanton-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_stacksize(t_stack *lst)
+void	ft_free_split(char **str)
 {
-	int		i;
+	int	i;
 
+	if (!str)
+		return ;
 	i = 0;
-	while (lst)
+	while (str[i])
 	{
-		lst = lst->next;
+		free(str[i]);
 		i++;
 	}
-	return (i);
+	free(str);
 }
 
-void	ft_stackadd_back(t_stack **lst, t_stack *new)
+void	free_stack(t_stack **stack)
 {
 	t_stack	*tmp;
 
-	if (!new)
+	if (!stack || !*stack)
 		return ;
-	if (!*lst)
+	while (*stack)
 	{
-		*lst = new;
-		return ;
+		tmp = *stack;
+		*stack = (*stack)->next;
+		free(tmp);
 	}
-	tmp = *lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
 }
 
-int	stack_creation(int *values, int size, t_stack **stack_a)
+void	free_all_stack(t_stack **stack_1, t_stack **stack_2)
 {
-	int		i;
-	t_stack	*new_node;
+	free_stack(stack_1);
+	free_stack(stack_2);
+}
 
+void	free_partial_array(char **arr, int count)
+{
+	int	i;
+
+	if (!arr)
+		return ;
 	i = 0;
-	while (i < size)
+	while (i < count)
 	{
-		new_node = ft_stacknew(values[i]);
-		if (!new_node)
-		{
-			free_stack(stack_a);
-			return (0);
-		}
-		ft_stackadd_back(stack_a, new_node);
+		if (arr[i])
+			free(arr[i]);
 		i++;
 	}
-	return (1);
 }

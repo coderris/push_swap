@@ -45,8 +45,6 @@ void	hybrid_sort(t_stack **a, t_stack **b, int size)
 		fast_ord(a, b, size);
 	else
 	{
-		if (!a || !*a || size <= 1)
-			return ;
 		if (size <= 100)
 			chunks = 4;
 		else
@@ -68,5 +66,5 @@ void	fast_ord(t_stack **stack_a, t_stack **stack_b, int size)
 	else if (size == 3)
 		sort_three(stack_a);
 	else
-		sort_five(stack_a, stack_b);
+		sort_five(stack_a, stack_b, size);
 }

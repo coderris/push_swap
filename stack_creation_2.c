@@ -43,7 +43,7 @@ static int	*create_sorted_array(int *values, int size)
 
 	sorted = malloc(sizeof(int) * size);
 	if (!sorted)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{
@@ -68,13 +68,15 @@ static int	find_index(int value, int *sorted, int size)
 	return (-1);
 }
 
-void	assign_indexes(t_stack *stack, int *values, int size)
+int	assign_indexes(t_stack *stack, int *values, int size)
 {
 	int		*sorted;
 	t_stack	*tmp;
 	int		index;
 
 	sorted = create_sorted_array(values, size);
+	if (!sorted)
+		return (0);
 	tmp = stack;
 	while (tmp)
 	{
@@ -82,10 +84,11 @@ void	assign_indexes(t_stack *stack, int *values, int size)
 		if (index == -1)
 		{
 			free(sorted);
-			ft_error_exit();
+			return (0);
 		}
 		tmp->idx = index;
 		tmp = tmp->next;
 	}
 	free(sorted);
+	return (1);
 }

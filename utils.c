@@ -33,7 +33,7 @@ long	ft_atoi_safe(char *str)
 	result = 0;
 	sign = 1;
 	if (!str)
-		exit(EXIT_FAILURE);
+		return (LONG_MAX);
 	if (*str == '-')
 	{
 		sign = (-1) * sign;
@@ -54,14 +54,14 @@ long	ft_atoi_safe(char *str)
 
 int	*ft_to_int(char **values, int size)
 {
-	int	i;
-	int	*result;
-	long temp;
+	int		i;
+	int		*result;
+	long	temp;
 
 	i = 0;
 	result = (int *)malloc(sizeof(int) * size);
 	if (!result)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	while (i < size)
 	{
 		temp = ft_atoi_safe(values[i]);
@@ -76,13 +76,11 @@ int	*ft_to_int(char **values, int size)
 	return (result);
 }
 
-void	move_min_to_top(t_stack **a)
+void	move_min_to_top(t_stack **a, int size)
 {
 	int		pos;
 	int		min_pos;
-	int		size;
 
-	size = ft_stacksize(*a);
 	min_pos = get_min_position(*a);
 	pos = 0;
 	if (min_pos <= size / 2)
@@ -95,9 +93,9 @@ void	move_min_to_top(t_stack **a)
 	}
 	else
 	{
-		pos = min_pos;
-		while (pos < size)
-		{ 
+		pos = 0;
+		while (pos < size - min_pos)
+		{
 			rr(a, "a");
 			pos++;
 		}

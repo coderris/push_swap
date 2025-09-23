@@ -48,14 +48,14 @@ int		reverse_stack(t_stack **stack);
 void	rr(t_stack **stack, char *c);
 int		reverse_all(t_stack **stack_a, t_stack **stack_b);
 void	sort_three(t_stack **stack);
-void	sort_five(t_stack **a, t_stack **b);
+void	sort_five(t_stack **a, t_stack **b, int size);
 int		ft_val_size(char **values);
-void	assign_indexes(t_stack *stack, int *values, int size);
+int		assign_indexes(t_stack *stack, int *values, int size);
 void	fast_ord(t_stack **stack_a, t_stack **stack_b, int size);
 t_stack	*ft_stacknew(int content);
 void	ft_stackadd_back(t_stack **lst, t_stack *new);
-void	stack_creation(int *values, int size, t_stack **stack_a);
-void	move_min_to_top(t_stack **a);
+int		stack_creation(int *values, int size, t_stack **stack_a);
+void	move_min_to_top(t_stack **a, int size);
 int		get_min_position(t_stack *stack);
 void	free_stack(t_stack **stack);
 void	free_all_stack(t_stack **stack_1, t_stack **stack_2);
@@ -64,5 +64,8 @@ void	push_chunks(t_stack **a, t_stack **b, int size, int chunks);
 int		find_max_position(t_stack *stack);
 void	sort_b_to_a(t_stack **a, t_stack **b);
 void	hybrid_sort(t_stack **a, t_stack **b, int size);
+void	free_partial_array(char **arr, int count);
+void	ft_error_exit_complete(char **splited, int *values,
+			t_stack **stack_a, t_stack **stack_b);
 
 #endif

@@ -39,18 +39,15 @@ void	sort_three(t_stack **stack)
 		rr(stack, "a");
 }
 
-void	sort_five(t_stack **a, t_stack **b)
+void	sort_five(t_stack **a, t_stack **b, int size)
 {
-	int	size;
 	int	moved;
 
 	moved = 0;
-	size = ft_stacksize(*a);
-	while (size > 3 && moved < 2)
+	while (moved < 2)
 	{
-		move_min_to_top(a);
+		move_min_to_top(a, size);
 		p(b, a, "b");
-		size--;
 		moved++;
 	}
 	sort_three(a);

@@ -46,16 +46,15 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b,
 
 	values_size = ft_val_size(splited_values);
 	values = validate_and_convert(splited_values, values_size);
-	if (!values)
-		ft_error_exit_free(splited_values, NULL);
-	stack_creation(values, values_size, stack_a);
-	assign_indexes(*stack_a, values, values_size);
+	if (!stack_creation(values, values_size, stack_a))
+		ft_error_exit_free(NULL, values);
 	if (is_sorted(*stack_a))
 	{
 		free(values);
-		free_all_stack(stack_a, stack_b);
 		return ;
 	}
+	if (!assign_indexes(*stack_a, values, values_size))
+		ft_error_exit_complete(NULL, values, stack_a, stack_b);
 	size = ft_stacksize(*stack_a);
 	hybrid_sort(stack_a, stack_b, size);
 	free(values);

@@ -29,20 +29,18 @@ int	find_closest_chunk_pos(t_stack *stack, int min, int max)
 	return (-1);
 }
 
-static void	move_to_top(t_stack **a, int pos)
+static void	move_to_top(t_stack **a, int pos, int size)
 {
-	int	len;
 	int	reverse_moves;
 
-	len = ft_stacksize(*a);
-	if (pos <= len / 2)
+	if (pos <= size / 2)
 	{
 		while (pos-- > 0)
 			r(a, "a");
 	}
 	else
 	{
-		reverse_moves = len - pos;
+		reverse_moves = size - pos;
 		while (reverse_moves-- > 0)
 			rr(a, "a");
 	}
@@ -69,7 +67,7 @@ void	push_chunks(t_stack **a, t_stack **b, int size, int chunks)
 		pos = find_closest_chunk_pos(*a, min, max);
 		while (pos != -1)
 		{
-			move_to_top(a, pos);
+			move_to_top(a, pos, size);
 			p(b, a, "b");
 			process_chunk_element(b, min, chunk_size);
 			pos = find_closest_chunk_pos(*a, min, max);
