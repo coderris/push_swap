@@ -18,22 +18,22 @@ void	sort_three(t_stack **stack)
 	int	b;
 	int	c;
 
-	a = (*stack)->content;
-	b = (*stack)->next->content;
-	c = (*stack)->next->next->content;
+	a = (*stack)->idx;
+	b = (*stack)->next->idx;
+	c = (*stack)->next->next->idx;
 	if (a > b && b < c && a < c)
 		s(*stack, "a");
 	else if (a > b && b > c)
 	{
 		s(*stack, "a");
-		r(stack, "a");
+		rr(stack, "a");
 	}
 	else if (a > b && b < c && a > c)
 		r(stack, "a");
 	else if (a < b && b > c && a < c)
 	{
-		s(*stack, "a");
 		rr(stack, "a");
+		s(*stack, "a");
 	}
 	else if (a < b && b > c && a > c)
 		rr(stack, "a");
@@ -42,13 +42,16 @@ void	sort_three(t_stack **stack)
 void	sort_five(t_stack **a, t_stack **b)
 {
 	int	size;
+	int	moved;
 
+	moved = 0;
 	size = ft_stacksize(*a);
-	while (size > 3)
+	while (size > 3 && moved < 2)
 	{
 		move_min_to_top(a);
 		p(b, a, "b");
 		size--;
+		moved++;
 	}
 	sort_three(a);
 	while (*b)

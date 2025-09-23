@@ -68,29 +68,23 @@ static int	find_index(int value, int *sorted, int size)
 	return (-1);
 }
 
-static void	assign_single_index(t_stack *tmp, int *sorted, int size)
-{
-	int	index;
-
-	index = find_index(tmp->content, sorted, size);
-	if (index == -1)
-	{
-		free(sorted);
-		exit(EXIT_FAILURE);
-	}
-	tmp->idx = index;
-}
-
 void	assign_indexes(t_stack *stack, int *values, int size)
 {
 	int		*sorted;
 	t_stack	*tmp;
+	int		index;
 
 	sorted = create_sorted_array(values, size);
 	tmp = stack;
 	while (tmp)
 	{
-		assign_single_index(tmp, sorted, size);
+		index = find_index(tmp->content, sorted, size);
+		if (index == -1)
+		{
+			free(sorted);
+			ft_error_exit();
+		}
+		tmp->idx = index;
 		tmp = tmp->next;
 	}
 	free(sorted);

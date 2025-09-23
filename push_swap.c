@@ -48,6 +48,8 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b,
 		ft_error_exit();
 	values_size = ft_val_size(splited_values);
 	values = validate_and_convert(splited_values, values_size);
+	if (!values)
+		ft_error_exit_free(splited_values, NULL);
 	stack_creation(values, values_size, stack_a);
 	assign_indexes(*stack_a, values, values_size);
 	if (is_sorted(*stack_a))
