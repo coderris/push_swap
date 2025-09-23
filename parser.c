@@ -28,6 +28,8 @@ int	ft_valid_input(char **splited_values)
 	int	i;
 
 	i = 0;
+	if(!splited_values[0])
+		return (1);
 	while (splited_values[i])
 	{
 		if (ft_valid_int(splited_values[i]))

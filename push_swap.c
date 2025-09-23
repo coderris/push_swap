@@ -44,8 +44,6 @@ static void	push_swap(t_stack **stack_a, t_stack **stack_b,
 	int	values_size;
 	int	size;
 
-	if (!splited_values)
-		ft_error_exit();
 	values_size = ft_val_size(splited_values);
 	values = validate_and_convert(splited_values, values_size);
 	if (!values)
@@ -74,6 +72,8 @@ int	main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		splited_values = ft_fill_stack(argc - 1, argv + 1);
+		if (!splited_values)
+			ft_error_exit();
 		push_swap(&stack_a, &stack_b, splited_values);
 	}
 	free_all_stack(&stack_a, &stack_b);
